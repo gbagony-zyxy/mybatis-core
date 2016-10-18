@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace命名空间是对sql进行分类化管理
+	 在mapper代理方法开发中namespace有其他特殊重要的作用 -->
+<mapper namespace="org.ruyin.code.spring.mybatis.mapper.UserMapper">
+	
+	<!-- sql片段当中不应该使用<where/>标签,防止一个查询当中存在多个<sql/>片段 -->
+	<sql id="query_user_info">
+		<if test="userCustom!=null ">
+			<if test="userCustom.sex!=null">
+				AND user.sex = #{userCustom.sex}
+			</if>
+			<if test="userCustom.username!=null">
+				AND user.username LIKE '%${userCustom.username}%'
+			</if>
+			<if test="ids!=null">
+				<foreach collection="ids" item="user_id" open="AND (" close=")" separator="or">
+					<!-- 每次遍历需要拼接的串 -->
+					id = #{user_id}
+				</foreach>
+			</if>
+		</if>
+	</sql>
+	
+	<select id="findUserList" parameterType="userQueryVo" resultType="userCustom">
+		SELECT * FROM user
+		<where>
+			<!-- 引用sql片段的id,如果refid指定的id不在本mapper文件中,需要前面加上namespace -->
+			<include refid="query_user_info"/>
+			<!-- 此处还可以引用其他的sql片段 -->
+		</where>
+	</select>
+	
+	<!-- 
+		#{}表示一个占位符号,默认会添加上''
+		#{id}:其中的id表示接收输入的参数,参数的名称就是id,如果输出参数是简单类型,#{}中的参数名可以任意,可以value或其他名称
+		 
+		resultType:指定sql输出结果的所映射的java对象类型,select指定resultType表示将单条记录映射成java对象
+	 -->
+	<select id="findUserById" parameterType="int" resultType="User">
+		SELECT * FROM USER 
+		<where>
+			id = #{gg}
+		</where>
+	</select>
+	
+	<!-- 
+		模糊查询对条记录
+		resultType:指定的就是单条记录所映射的java对象类型
+		${}:表示拼接sql串,将接收到的内容不加任何修饰拼接在sql中
+		使用${}可能会引起sql注入
+	 -->
+	<select id="findUserByName" parameterType="java.lang.String" resultType="User">
+		SELECT * FROM `user`
+		<where>
+			username LIKE '%${value}%'
+		</where>
+	</select>
+	
+	<!-- 添加用户
+		parameterType:制定输入参数类型是pojo
+		#{}中指定pojo的属性名,接收到pojo对象的属性值,mybatis通过OGNL获取对象的属性值
+	 -->
+	<insert id="insertUser" parameterType="user">
+		<!-- 
+			将插入数据的主键返回,返回到user对象中
+			SELECT LAST_INSERT_ID():只适用于自增主键
+			keyProperty:将查询到主键值设置到parameterType指定的对象属性上
+		 -->
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		<!-- 
+			针对非自增的主键:
+			首先通过uuid()得到主键,将逐渐设置到user对象的id中
+			其次在insert执行时,从user对象中取出id属性值
+		 -->
+		<!-- <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+		INSERT INTO `user`(#{id},username,birthday,sex,address) VALUES(#{id},#{username},#{birthday},#{sex},#{address}) -->
+		
+		INSERT INTO `user`(username,birthday,sex,address) VALUES(#{username},#{birthday},#{sex},#{address})	
+	</insert>
+	
+	<!-- 
+		删除用户
+	 -->
+	<delete id="deleteUser" parameterType="java.lang.Integer">
+		DELETE FROM user
+		<where>
+			id = #{id}
+		</where>
+	</delete>
+	
+	<!-- 更新用户 -->
+	<update id="updateUser" parameterType="user">
+		UPDATE user SET  username = #{username},birthday=#{birthday},sex=#{sex},address=#{address}
+		<where>
+			id = #{id}
+		</where>
+	</update>
+</mapper>
