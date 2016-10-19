@@ -111,10 +111,28 @@ mappers(映射器):
 	一对多 <collection/>、
 	多对多查询:组合使用<association/>与<collection/>支持延迟加载
 	延迟加载：先从单表查询、需要时再去关联表去关联查询,大大提高数据库性能,cuz单表查询比关联表快
-查询缓存：
+查询缓存：减轻数据压力,提升数据库性能
 
-	一级缓存
-	二级缓存
+	一级缓存:SqlSession级别(插入删除更新关闭会清空缓存区域数据)
+		在SqlSession中有一个HashMap用于存储缓存数据,不通的SqlSession之间的缓存数据HashMap互不影响
+	二级缓存:Mapper级别(pojo类需要实现序列化,为了将缓存数据取出,实现反序列操作,二级缓存的存储介质不一定在内存,可能在硬盘或远程)
+		多个SqlSession操作同一个Mapper的sql语句(二级缓存的范围更广),多个SqlSession可以共用二级缓存,二级缓存是跨SqlSession
+		不通Mapper拥有不同的二级缓存区域(缓存区域是按照namespace划分的),即每一个namespace的Mapper有一个二级缓存区域
+		对数据实时要求高的sql可以不使用缓存(useCache="false")
+		刷新缓存(flushCache="true",其实就是清空缓存)
+
+mybatis与ehcache整合
+
+	1、分布缓存:系统并发、性能(集群部署),若不分布缓存则缓存数据在各个服务器单独存储
+	2、整合方法:mybatis提供了一个cache接口
+
 mybatis与Spring整合
 
+	1、mapper/dao全部由Spring管理
+	2、以单例方式来管理SqlSessionFactory
+		配置:SqlSessionFactoryBean、MapperScannerConfiguer(扫描包下的Mapper)、MapperFactoryBean(针对单个Mapper的bean设值)
+
 mybatis逆向工程
+
+	可以针对单表自动生成mybatis执行所需的代码
+	逆向工程(Reverse Engineering)
