@@ -11,12 +11,15 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 import org.ruyin.code.spring.mybatis.bean.User;
+import org.ruyin.code.spring.mybatis.mapper.UserMapper;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class MybatisTest {
 
 	@Test
 	public void findUserByIdTest() throws IOException {
-		String resource = "SqlMapConfig.xml";
+		String resource = "config/SqlMapConfig1.xml";
 		InputStream config = Resources.getResourceAsStream(resource);
 		// 创建会话工厂
 		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(config);
@@ -35,7 +38,7 @@ public class MybatisTest {
 
 	@Test
 	public void insertUserTest() throws IOException {
-		String resource = "SqlMapConfig.xml";
+		String resource = "config/SqlMapConfig1.xml";
 		InputStream config = Resources.getResourceAsStream(resource);
 		// 创建会话工厂
 		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(config);
@@ -59,7 +62,7 @@ public class MybatisTest {
 
 	@Test
 	public void deleteUserTest() throws IOException {
-		String resource = "SqlMapConfig.xml";
+		String resource = "config/SqlMapConfig1.xml";
 		InputStream config = Resources.getResourceAsStream(resource);
 		// 创建会话工厂
 		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(config);
@@ -77,7 +80,7 @@ public class MybatisTest {
 
 	@Test
 	public void updateUserTest() throws IOException {
-		String resource = "SqlMapConfig.xml";
+		String resource = "config/SqlMapConfig1.xml";
 		InputStream config = Resources.getResourceAsStream(resource);
 		// 创建会话工厂
 		SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(config);
@@ -98,5 +101,14 @@ public class MybatisTest {
 		session.commit();
 
 		session.close();
+	}
+	
+	@SuppressWarnings("resource")
+	@Test
+	public void testSpringWithMybatis() throws Exception{
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		UserMapper userMapper = (UserMapper) context.getBean("userMapper");
+		User user = userMapper.findUserById(1);
+		System.out.println(user);
 	}
 }

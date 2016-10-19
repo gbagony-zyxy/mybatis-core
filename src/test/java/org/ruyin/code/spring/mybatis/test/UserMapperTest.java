@@ -21,7 +21,7 @@ public class UserMapperTest {
 
 	@Before
 	public void init() throws IOException {
-		String resource = "SqlMapConfig.xml";
+		String resource = "config/SqlMapConfig1.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		factory = new SqlSessionFactoryBuilder().build(inputStream);
 	}

@@ -15,4 +15,6 @@ public interface OrdersMapperCustom{
 	public List<Orders> findOrderAndOrderdetailUserResultMap()throws Exception;
 	//多对多  查询用户购买商品的信息
 	public List<User> findUserAndItemsResultMap()throws Exception;
+	//延迟加载用户信息
+	public List<Orders> findUserOrderLazyLoading()throws Exception;
 }

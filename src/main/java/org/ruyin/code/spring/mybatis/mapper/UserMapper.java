@@ -22,4 +22,6 @@ public interface UserMapper {
 	
 	//用户信息综合查询,pojo包装类
 	public List<UserCustom> findUserList(UserQueryVo userQueryVo)throws Exception;
+	
+	public void updateUser(User user)throws Exception;
 }

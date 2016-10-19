@@ -6,7 +6,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- namespace命名空间是对sql进行分类化管理
 	 在mapper代理方法开发中namespace有其他特殊重要的作用 -->
 <mapper namespace="org.ruyin.code.spring.mybatis.mapper.UserMapper">
-	
+	<!-- 开启本Mapper的namespace的二级缓存,使用ehcache作为二级缓存 -->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
+		
+	</cache>
 	<!-- sql片段当中不应该使用<where/>标签,防止一个查询当中存在多个<sql/>片段 -->
 	<sql id="query_user_info">
 		<if test="userCustom!=null ">

@@ -21,7 +21,7 @@ public class OrdersMapperTest {
 
 	@Before
 	public void init() throws IOException {
-		String resource = "SqlMapConfig.xml";
+		String resource = "config/SqlMapConfig1.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		factory = new SqlSessionFactoryBuilder().build(inputStream);
 	}
@@ -63,6 +63,16 @@ public class OrdersMapperTest {
 		OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
 		List<User> list = ordersMapperCustom.findUserAndItemsResultMap();
 		System.out.println(list);
+		sqlSession.close();
+	}
+	
+	@Test
+	public void testFindUserOrderLazyLoading() throws Exception {
+		SqlSession sqlSession = factory.openSession();
+		OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
+		List<Orders> orders = ordersMapperCustom.findUserOrderLazyLoading();
+		System.out.println(orders);
+		
 		sqlSession.close();
 	}
 }

@@ -3,8 +3,16 @@
 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
 	<properties resource="jdbc.properties"/>
+	
+	<!-- 全局设置 -->
+	<settings>
+		<!-- 延迟加载 -->
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="aggressiveLazyLoading" value="false"/>
+		<!-- 开启二级缓存 -->
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
 	
 	<typeAliases>
 		<!-- 单个别名定义 -->
@@ -16,11 +24,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 -->
 		<package name="org.ruyin.code.spring.mybatis.bean"/>
 	</typeAliases>
-	<!-- 全局设置 -->
-	<settings>
-		<setting name="lazyLoadingEnable" value="true"/>
-		<setting name="aggressiveLazyLoading" value="false"/>
-	</settings>
 	
 	<!-- 和Spring整合之后该环境将不再使用 -->
 	<environments default="development">
