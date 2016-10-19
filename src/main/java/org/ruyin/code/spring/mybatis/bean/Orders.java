@@ -1,13 +1,17 @@
 package org.ruyin.code.spring.mybatis.bean;
 
+import java.util.Date;
 import java.util.List;
 
+/**
+ *	订单表 
+ */
 public class Orders {
 
 	private Integer id;
 	private Integer userId;
 	private String number;
-	private String createTime;
+	private Date createTime;
 	private String remark;
 
 	private User user;
@@ -54,11 +58,11 @@ public class Orders {
 		this.number = number;
 	}
 
-	public String getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 

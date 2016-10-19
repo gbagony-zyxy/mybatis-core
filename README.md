@@ -83,8 +83,19 @@ mappers(映射器):
 				   如果查询出来的列名和pojo中的属性名全部不一致,则不会创建pojo对象
 				   只要查询出来的列名和pojo中的属性有一个一致,就会创建pojo对象
 				   根据返回值类型来动态选择selectOne或者selectList
-	2、resultMap：定义resultMap,使用resultMap作为statement的输出映射,保证列名和属性名保持一致
 
+				   作用:将查询结果按照sql列名pojo属性名一致性映射到一个大大的pojo中(包含所有需要的属性)
+				   场合:常见一些明细记录的展示,比如用户购买商品明细,将关联查询信息全部展示在页面时,此时可直接使用resultType将每一条记录映射到pojo中,在前端页面遍历list(list中是pojo)即可
+	2、resultMap：定义resultMap,使用resultMap作为statement的输出映射,保证列名和属性名保持一致
+				 使用association和collection完成一对一和一对多高级映射,对映射有特殊需求的
+
+				association:
+					作用:将关联查询信息映射到一个pojo对象中
+					场合:可以方便地将关联信息映射到一对一的关系中
+						使用resultType无法将查询结果映射到pojo对象的pojo属性中,根据对结果集查询遍历的需要选择使用resultType还是resultMap
+
+				  collection:
+					作用:将关联查询信息映射到一个list集合中
 动态映射:
 
 	动态sql：
@@ -98,8 +109,8 @@ mappers(映射器):
 	数据库级别的关系
 	一对一 <association/>、
 	一对多 <collection/>、
-	多对多查询<>
-	延迟加载
+	多对多查询:组合使用<association/>与<collection/>支持延迟加载
+	延迟加载：先从单表查询、需要时再去关联表去关联查询,大大提高数据库性能,cuz单表查询比关联表快
 查询缓存：
 
 	一级缓存

@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.ruyin.code.spring.mybatis.bean.Orders;
 import org.ruyin.code.spring.mybatis.bean.OrdersCustom;
+import org.ruyin.code.spring.mybatis.bean.User;
 import org.ruyin.code.spring.mybatis.mapper.OrdersMapperCustom;
 
 public class OrdersMapperTest {
@@ -51,6 +52,16 @@ public class OrdersMapperTest {
 		
 		OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
 		List<Orders> list = ordersMapperCustom.findOrderAndOrderdetailUserResultMap();
+		System.out.println(list);
+		sqlSession.close();
+	}
+	
+	@Test
+	public void testFindUserAndItemsResultMap() throws Exception {
+		SqlSession sqlSession = factory.openSession();
+		
+		OrdersMapperCustom ordersMapperCustom = sqlSession.getMapper(OrdersMapperCustom.class);
+		List<User> list = ordersMapperCustom.findUserAndItemsResultMap();
 		System.out.println(list);
 		sqlSession.close();
 	}

@@ -1,7 +1,11 @@
 package org.ruyin.code.spring.mybatis.bean;
 
 import java.util.Date;
+import java.util.List;
 
+/**
+ * 用户表
+ */
 public class User {
 
 	private int id;
@@ -10,8 +14,18 @@ public class User {
 	private String address;
 	private Date birthday;
 
-	public void setId(int id) {
-		this.id = id;
+	private List<Orders> orders;
+
+	public List<Orders> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Orders> orders) {
+		this.orders = orders;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public String getUsername() {

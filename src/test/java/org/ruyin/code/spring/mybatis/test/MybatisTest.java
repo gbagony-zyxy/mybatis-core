@@ -87,7 +87,7 @@ public class MybatisTest {
 		// statement参数指定映射文件中"namespace+id"
 		// parameter参数指定parameterType类型的参数
 		User user = new User();
-		user.setId(9);
+		//user.setId(9);
 		user.setAddress("23");
 		user.setBirthday(new Date());
 		user.setSex("Male");

@@ -3,6 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
 	<properties resource="jdbc.properties"/>
 	
 	<typeAliases>
@@ -15,6 +16,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 -->
 		<package name="org.ruyin.code.spring.mybatis.bean"/>
 	</typeAliases>
+	<!-- 全局设置 -->
+	<settings>
+		<setting name="lazyLoadingEnable" value="true"/>
+		<setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
 	
 	<!-- 和Spring整合之后该环境将不再使用 -->
 	<environments default="development">
