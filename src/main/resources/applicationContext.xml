@@ -38,5 +38,27 @@
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="org.ruyin.code.spring.mybatis.mapper"></property>
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		<property name="processPropertyPlaceHolders" value="true"></property>
 	</bean>
+	
+	
+	<!-- 定时器执行任务 -->
+	<bean id="taskTrigger" class="org.springframework.scheduling.concurrent.ScheduledExecutorTask">
+		<property name="delay" value="2000"/>
+		<property name="period" value="2000"/>
+		<property name="runnable" ref="task"/>
+		<property name="fixedRate" value="true"/>
+		<!-- <property name="timeUnit" value="TimeUnit.SECONDS"/> -->
+	</bean>
+	
+	<bean id="scheduler" class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean">
+		<property name="daemon" value="false"/>
+		<property name="scheduledExecutorTasks">
+			<list>
+				<ref bean="taskTrigger"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="task" class="org.ruyin.code.spring.mybatis.timer.CalculateTask"/>
 </beans>
